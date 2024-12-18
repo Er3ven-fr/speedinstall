@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Installateur d'Applications</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    .app-list {
+      margin-bottom: 20px;
+    }
+    .command-box {
+      margin-top: 20px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      background-color: #f9f9f9;
+    }
+  </style>
+</head>
+<body>
+  <h1>Choisissez vos applications</h1>
+  <div class="app-list">
+    <label><input type="checkbox" value="7zip.7zip"> 7-Zip</label><br>
+    <label><input type="checkbox" value="Valve.Steam"> Steam</label><br>
+    <label><input type="checkbox" value="Google.Chrome"> Google Chrome</label><br>
+    <label><input type="checkbox" value="Discord.Discord"> Discord</label><br>
+    <label><input type="checkbox" value="voidtools.Everything"> Everything</label><br>
+    <label><input type="checkbox" value="OBSProject.OBSStudio"> OBS Studio</label><br>
+    <label><input type="checkbox" value="Notepad++.Notepad++"> Notepad++</label><br>
+    <label><input type="checkbox" value="Microsoft.VisualStudioCode"> Visual Studio Code</label><br>
+  </div>
+  <button onclick="generateCommand()">Générer la commande</button>
+
+  <div class="command-box">
+    <strong>Commande PowerShell :</strong>
+    <pre id="command"></pre>
+  </div>
+
+  <script>
+    function generateCommand() {
+      const checkboxes = document.querySelectorAll('.app-list input[type="checkbox"]');
+      const selectedApps = [];
+      
+      // Récupérer les applications sélectionnées
+      checkboxes.forEach(checkbox => {
+        if (checkbox.checked) {
+          selectedApps.push(checkbox.value);
+        }
+      });
+
+      // Générer la commande PowerShell
+      if (selectedApps.length > 0) {
+        const command = `winget install --id="${selectedApps.join('" && winget install --id="')}"`;
+        document.getElementById('command').textContent = command;
+      } else {
+        document.getElementById('command').textContent = 'Veuillez sélectionner au moins une application.';
+      }
+    }
+  </script>
+</body>
+</html>
